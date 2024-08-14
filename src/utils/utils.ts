@@ -1,7 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import HttpStatusCode from '../constants/httpStatusCode'
 import { ErrorResponse } from '../types/untils.type'
-import { Products } from '@/types/product.type'
 
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
   return axios.isAxiosError(error)

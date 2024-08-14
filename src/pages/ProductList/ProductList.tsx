@@ -20,6 +20,8 @@ export default function ProductList() {
     }
   })
 
+  console.log(ProductMeat)
+
   const { data: ProductVes } = useQuery({
     queryKey: ['products-ves'],
     queryFn: () => {

@@ -39,13 +39,12 @@ export default function ProductDetail() {
   }
 
   function addToCart(product: Products): void {
-    addProduct(product)
+    addProduct(product, buyCount)
     toast({
       description: 'Thêm sản phẩm thành công'
     })
   }
   const categories = categoriesData?.data.data
-  console.log(isSuccess)
 
   return (
     <div>
@@ -95,12 +94,6 @@ export default function ProductDetail() {
                   >
                     <ShoppingCart className='mr-2 h-4 w-4' />
                     thêm vào giỏ hàng
-                  </Button>
-                  <Button
-                    className='ml-5 h-12 rounded-sm bg-slate-300 p-4 text-sm capitalize text-black hover:bg-slate-400'
-                    onClick={() => {}}
-                  >
-                    Mua ngay
                   </Button>
                 </div>
               </div>

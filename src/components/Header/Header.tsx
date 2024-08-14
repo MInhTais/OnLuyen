@@ -4,9 +4,10 @@ import { useQuery } from '@tanstack/react-query'
 import { SearchIcon, ShoppingCartIcon } from 'lucide-react'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Popover from '../Popover'
 
 const Header: React.FC = () => {
-  const { products: productsContext } = useProductContext()
+  const { products: productsContext, isAuthenticated, profile } = useProductContext()
   const [showProducts, setShowProducts] = useState(false)
   const [searchValue, setInputValue] = useState('')
 
@@ -38,14 +39,16 @@ const Header: React.FC = () => {
 
   return (
     <header className='bg-green-600 text-white p-4'>
-      <div className='px-[10%] grid grid-cols-4 items-center gap-4'>
+      <div className='pl-[10%] pr-[5%] grid grid-cols-6 items-center gap-4'>
         <div className='items-center space-x-4 hidden lg:flex'>
           <button className='text-xl'>
             <i className='fas fa-bars'></i>
           </button>
-          <h1 className='text-2xl font-bold'>Bách hóa</h1>
+          <Link to={'/'} className='text-2xl font-bold'>
+            Bách hóa
+          </Link>
         </div>
-        <div className='relative col-span-3 lg:col-span-2'>
+        <div className='relative col-span-3 lg:col-span-3'>
           <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
             <SearchIcon className='h-5 w-5 text-gray-500' />
           </div>
@@ -77,21 +80,61 @@ const Header: React.FC = () => {
             </div>
           )}
         </div>
-        <div className='flex items-center space-x-8 justify-end'>
+        <div className='flex items-center space-x-8 justify-end col-span-2'>
           <Link to={'/cart'} className='text-xl relative'>
             <ShoppingCartIcon className='h-6 w-6' />
             <span className='absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-1'>
               {productsContext.length}
             </span>
           </Link>
-          <div className='flex gap-4'>
-            <Link to='/login' className='text-sm underline'>
-              Đăng nhập
-            </Link>
-            <Link to='/register' className='text-sm underline'>
-              Đăng ký
-            </Link>
-          </div>
+          {isAuthenticated ? (
+            <div className='flex cursor-pointer items-center justify-end px-3 py-1 relative'>
+              <img
+                className='h-6 w-6 rounded-full object-cover'
+                src={
+                  profile?.avatar
+                    ? profile.avatar
+                    : 'https://api-ecom.duthanhduoc.com/images/79e001c4-ed1b-4dc9-bd2d-9047d75e69de.png'
+                }
+                alt='avatar'
+              />
+              <span className='mx-3'>Xin chào: {profile?.name}</span>
+            </div>
+          ) : (
+            // <Popover
+            //   placement='bottom-end'
+            //   renderProps={
+            //     <div className='border-gay-200 relative max-w-[300px] rounded-sm border bg-white shadow-md md:max-w-[400px]'>
+            //       <div className='flex h-[300px] w-[300px] justify-start p-2'>
+            //         <Link to={''} className='w-full h-10 bg-gray-200 rounded-lg hover:bg-gray-300 p-2'>
+            //           Quản trị
+            //         </Link>
+            //       </div>
+            //     </div>
+            //   }
+            // >
+            //   <div className='flex cursor-pointer items-center justify-end px-3 py-1 relative'>
+            //     <img
+            //       className='h-6 w-6 rounded-full object-cover'
+            //       src={
+            //         profile?.avatar
+            //           ? profile.avatar
+            //           : 'https://api-ecom.duthanhduoc.com/images/79e001c4-ed1b-4dc9-bd2d-9047d75e69de.png'
+            //       }
+            //       alt='avatar'
+            //     />
+            //     <span className='mx-3'>Xin chào: {profile?.name}</span>
+            //   </div>
+            // </Popover>
+            <div className='flex gap-4'>
+              <Link to='/login' className='text-sm underline'>
+                Đăng nhập
+              </Link>
+              <Link to='/register' className='text-sm underline'>
+                Đăng ký
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </header>

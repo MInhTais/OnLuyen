@@ -7,3 +7,9 @@ export interface SuccessResponse<T> {
   data: T;
   message: string;
 }
+
+export interface GoshipSuccessResponse<T> {
+  code: number;
+  data: T;
+  status:string,
+}

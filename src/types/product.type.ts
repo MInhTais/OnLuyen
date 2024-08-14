@@ -2,6 +2,8 @@ export interface CategoryLevel2 {
   id: number;
   categorieName2: string;
   categoriesLevel1Id: number;
+  image:string;
+  categoriesLevel2_products:Products[]
 }
 
 export interface CategoryLevel1 {

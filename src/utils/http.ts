@@ -1,48 +1,58 @@
 import { URL_LOGIN, URL_REGISTER } from "@/api/auth.api"
 import { AuthResponse } from "@/types/auth.type"
-import axios, { AxiosInstance } from "axios"
+import axios, { AxiosError, AxiosInstance } from "axios"
+import { clearAccessTokenToLocalStorage, getAccessTokenFromLocalStorage, getRefreshTokenFromLocalStorage, saveAccessTokenToLocalStorage, saveRefreshTokenToLocalStorage, saveUserToLocalStorage } from "./auth"
 
 class Http {
   instance: AxiosInstance
-  // private accessToken: string
-  // private refreshToken: string
+  private accessToken: string
+  private refreshToken: string
   // private refreshTokenRequest: Promise<string> | null
   constructor() {
-    // this.accessToken = getAccessTokenFromLocalStorage()
-    // this.refreshToken = getRefreshTokenFromLocalStorage()
+    this.accessToken = getAccessTokenFromLocalStorage()
+    this.refreshToken = getRefreshTokenFromLocalStorage()
     // this.refreshTokenRequest = null
     this.instance = axios.create({
       baseURL: 'http://localhost:8080/',
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json'
-        // 'expire-access-token': 5,
-        // 'expire-refresh-token': 120
       }
     })
-    // this.instance.interceptors.request.use(
-    //   (config) => {
-    //     if (this.accessToken && config.headers) {
-    //       config.headers.authorization = this.accessToken
-    //       return config
-    //     }
-    //     return config
-    //   },
-    //   (err) => {
-    //     return Promise.reject(err)
-    //   }
-    // )
+    this.instance.interceptors.request.use(
+      (config) => {
+        if (this.accessToken && config.headers) {
+          config.headers.authorization = this.accessToken
+          return config
+        }
+        return config
+      },
+      (err) => {
+        return Promise.reject(err)
+      }
+    )
     this.instance.interceptors.response.use(
       (response) => {
 
         const { url } = response.config
-        if(url === URL_LOGIN || url === URL_REGISTER){
+        console.log(response)
+        if (url === '/auth/login' || url === '/auth/register') {
           const data = response.data as AuthResponse
-          console.log(data)
+          console.log(data.data)
+          this.accessToken = data.data.access_token
+          this.refreshToken = data.data.refresh_token
+          saveUserToLocalStorage(data.data.user)
+          saveAccessTokenToLocalStorage(this.accessToken)
+          saveRefreshTokenToLocalStorage(this.refreshToken)
+        } else if (url === '/logout') {
+          this.accessToken = ''
+          this.refreshToken = ''
+          clearAccessTokenToLocalStorage()
         }
         return response
       },
-      // (error: AxiosError) => {
+      (error: AxiosError) => {
+        console.log(error)
       //   if (error.response?.status !== HttpStatusCode.UnprocessableEntity) {
       //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
       //     // const data: any | undefined = error.response?.data
@@ -75,8 +85,8 @@ class Http {
       //       }
       //     }
       //   }
-      //   return Promise.reject(error)
-      // }
+        return Promise.reject(error)
+      }
     )
   }
 //   private handleRefreshToken() {

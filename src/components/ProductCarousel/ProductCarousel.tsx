@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 import { Products } from '@/types/product.type'
 import { formatCurrency, generateNameId } from '@/utils/utils'
 import { useProductContext } from '@/context/MyProvider'
-import { toast } from '../ui/use-toast'
+import { toast } from 'sonner'
 
 interface ProductListProps {
   classNameHeader?: string
@@ -21,9 +21,7 @@ const ProductCarousel: React.FC<ProductListProps> = ({ header, morePromotions, c
 
   function addToCart(product: Products): void {
     addProduct(product)
-    toast({
-      description: 'Thêm sản phẩm thành công'
-    })
+    toast.success('Thêm sản phẩm thành công')
   }
 
   useEffect(() => {
