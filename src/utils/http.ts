@@ -36,7 +36,7 @@ class Http {
 
         const { url } = response.config
         console.log(response)
-        if (url === '/auth/login' || url === '/auth/register') {
+        if (url === '/auth/login') {
           const data = response.data as AuthResponse
           console.log(data.data)
           this.accessToken = data.data.access_token

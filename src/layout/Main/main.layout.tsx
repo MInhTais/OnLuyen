@@ -16,7 +16,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           'lg:px-[3%]': pathname === '/cart'
         })}
       >
-        {!/^\/categories\/\d+/.test(pathname) && pathname !== '/login' ? (
+        {!/^\/categories\/\d+/.test(pathname) && pathname !== '/login' && pathname !== '/register' ? (
           <div className='hidden lg:block w-1/4'>
             <ProductCategories />
           </div>

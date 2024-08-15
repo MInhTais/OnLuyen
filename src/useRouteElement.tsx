@@ -9,6 +9,8 @@ import CartLayout from './layout/Cart'
 import Checkout from './pages/Checkout'
 import Shipping from './pages/Shipping'
 import Categories from './pages/Categories/Categories'
+import OAuthCallback from './components/OAuthCallback'
+import RegisterPage from './pages/Register/Register'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useProductContext()
@@ -93,10 +95,26 @@ export default function useRouteElement() {
           )
         },
         {
+          path: '/login/oauth',
+          element: (
+            <MainLayout>
+              <OAuthCallback />
+            </MainLayout>
+          )
+        },
+        {
+          path: '/auth/verify-password',
+          element: (
+            <MainLayout>
+              <OAuthCallback />
+            </MainLayout>
+          )
+        },
+        {
           path: '/register',
           element: (
             <MainLayout>
-              <LoginPage />
+              <RegisterPage />
             </MainLayout>
           )
         }
