@@ -18,6 +18,7 @@ export const getRules = (getValues?: UseFormGetValues<FieldValues>): Rules => ({
       message: 'Độ dài từ 5 - 160 kí tự',
     },
   },
+  
   password: {
     required: 'Password là bắt buộc',
     maxLength: {
