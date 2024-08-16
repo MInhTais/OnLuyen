@@ -1,3 +1,3 @@
-import ProductCarousel from "./ProductCarousel";
+import ProductCarousel from './ProductCarousel'
 
 export default ProductCarousel

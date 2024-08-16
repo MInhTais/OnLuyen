@@ -1,3 +1,3 @@
-import ProductCategories from "./ProductCategories";
+import ProductCategories from './ProductCategories'
 
 export default ProductCategories

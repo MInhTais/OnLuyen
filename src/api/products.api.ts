@@ -8,22 +8,22 @@ const productsAPI = {
   getProductsDiscout() {
     return http.get<SuccessResponse<Products[]>>(`${URL}/products-dis`)
   },
-  getProductMeatCategory(){
+  getProductMeatCategory() {
     return http.get<SuccessResponse<Products[]>>(`${URL}/products-meat`)
   },
-  getProductVesCategory(){
+  getProductVesCategory() {
     return http.get<SuccessResponse<Products[]>>(`${URL}/products-ves`)
   },
-  getProductOilsCategory(){
+  getProductOilsCategory() {
     return http.get<SuccessResponse<Products[]>>(`${URL}/products-oil`)
   },
-  searchProduct(params:string){
+  searchProduct(params: string) {
     return http.get<SuccessResponse<Products[]>>(`${URL}/${'search'}/${params}`)
   },
   getProductDetail(id: string) {
     return http.get<SuccessResponse<Products>>(`${URL}/${id}`)
   },
-  getCategorieById(categoriesId:number){
+  getCategorieById(categoriesId: number) {
     return http.get<SuccessResponse<Products[]>>(`${URL}/categories/${categoriesId}`)
   }
 }

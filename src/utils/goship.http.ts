@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from "axios"
+import axios, { AxiosError, AxiosInstance } from 'axios'
 
 class Http {
   instance: AxiosInstance
@@ -8,12 +8,11 @@ class Http {
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',
-        Accept:'application/json',
+        Accept: 'application/json'
       }
     })
     this.instance.interceptors.request.use(
       (config) => {
-        
         return config
       },
       (err) => {
@@ -30,6 +29,6 @@ class Http {
       }
     )
   }
- }
+}
 const goshipHttp = new Http().instance
 export default goshipHttp

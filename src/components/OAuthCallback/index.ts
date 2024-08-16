@@ -1,3 +1,3 @@
-import OAuthCallback from "./OAuthCallback";
+import OAuthCallback from './OAuthCallback'
 
 export default OAuthCallback

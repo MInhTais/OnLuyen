@@ -8,14 +8,14 @@ const goshipAPI = {
   getCity() {
     return goshipHttp.get<GoshipSuccessResponse<City[]>>(URL)
   },
-  getDistricts(code:string) {
+  getDistricts(code: string) {
     return goshipHttp.get<GoshipSuccessResponse<Districts[]>>(`/${code}/districts`)
   },
-  getWardsByDistrict(code:string) {
+  getWardsByDistrict(code: string) {
     return goshipHttp.get<GoshipSuccessResponse<Wards[]>>(`/${code}/wards`)
   },
-  getRates(body:RateRequest) {
-    return goshipHttp.post<GoshipSuccessResponse<RateResponse[]>>(`/rates`,body)
+  getRates(body: RateRequest) {
+    return goshipHttp.post<GoshipSuccessResponse<RateResponse[]>>(`/rates`, body)
   }
 }
 export default goshipAPI

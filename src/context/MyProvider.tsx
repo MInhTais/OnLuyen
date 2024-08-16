@@ -4,7 +4,7 @@ import { User } from '@/types/user.type'
 import { getAccessTokenFromLocalStorage, getAddressFromLocalStorage, getProfileFromLocalStorage } from '@/utils/auth'
 import { createContext, ReactNode, useState, useContext } from 'react'
 
-interface ProductWithQuantity extends Products {
+export interface ProductWithQuantity extends Products {
   quantity: number
 }
 

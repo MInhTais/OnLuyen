@@ -1,10 +1,10 @@
 import productsAPI from '@/api/products.api'
 import { useProductContext } from '@/context/MyProvider'
+import { generateNameId } from '@/utils/utils'
 import { useQuery } from '@tanstack/react-query'
 import { SearchIcon, ShoppingCartIcon } from 'lucide-react'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import Popover from '../Popover'
 
 const Header: React.FC = () => {
   const { products: productsContext, isAuthenticated, profile } = useProductContext()
@@ -68,12 +68,15 @@ const Header: React.FC = () => {
               <ul>
                 {searchData?.data.data.map((product, index) => (
                   <li key={index} className='p-2 hover:bg-gray-200 cursor-pointer'>
-                    <div className='grid grid-cols-12'>
+                    <Link
+                      to={`${'/'}${generateNameId({ name: product.name, id: product.id })}`}
+                      className='grid grid-cols-12'
+                    >
                       <div className='col-span-1'>
                         <img src={product.image} className='h-9 w-9' />
                       </div>
                       <div className='col-span-11'>{product.name}</div>
-                    </div>
+                    </Link>
                   </li>
                 ))}
               </ul>

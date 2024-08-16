@@ -11,10 +11,15 @@ import Shipping from './pages/Shipping'
 import Categories from './pages/Categories/Categories'
 import OAuthCallback from './components/OAuthCallback'
 import RegisterPage from './pages/Register/Register'
+import AdminLayout from './layout/AdminLayout'
+import AdminDashboard from './pages/AdminDashboard'
+import AdminProduts from './pages/AdminProduts'
 
 function ProtectedRoute() {
-  const { isAuthenticated } = useProductContext()
-  return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
+  const { isAuthenticated, profile } = useProductContext()
+  console.log(profile?.decentralizations)
+  const isAdmin = profile?.decentralizations.find((e) => e.roleName === 'ADMIN')
+  return isAuthenticated && isAdmin !== undefined ? <Outlet /> : <Navigate to='/cart' />
 }
 
 function RejectedRoute() {
@@ -130,6 +135,36 @@ export default function useRouteElement() {
             <CartLayout>
               <Checkout />
             </CartLayout>
+          )
+        }
+      ]
+    },
+    {
+      path: '/admin',
+      element: <ProtectedRoute />,
+      children: [
+        {
+          path: '',
+          element: (
+            <AdminLayout>
+              <AdminDashboard />
+            </AdminLayout>
+          )
+        },
+        {
+          path: 'dashboard',
+          element: (
+            <AdminLayout>
+              <AdminDashboard />
+            </AdminLayout>
+          )
+        },
+        {
+          path: 'products',
+          element: (
+            <AdminLayout>
+              <AdminProduts />
+            </AdminLayout>
           )
         }
       ]

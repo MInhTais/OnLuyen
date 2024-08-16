@@ -4,8 +4,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Plus } from 'lucide-react'
 import { formatCurrency } from '@/utils/utils'
 import classNames from 'classnames'
-import { useProductContext } from '@/context/MyProvider'
+import { ProductWithQuantity, useProductContext } from '@/context/MyProvider'
 import { toast } from 'sonner'
+import { useMutation } from '@tanstack/react-query'
+import orderAPI from '@/api/orders.api'
+import { OrderItem, OrderRequest } from '@/types/order.type'
 
 const CartLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const {
@@ -17,18 +20,68 @@ const CartLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     rate,
     address,
     setRate,
+    profile,
     purchaseProducts
   } = useProductContext()
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
+  const orderMutation = useMutation({
+    mutationFn: (body: OrderRequest) => orderAPI.createOrder(body)
+  })
+
+  const orderDetailMutation = useMutation({
+    mutationFn: (body: OrderItem[]) => orderAPI.createOrderDetail(body)
+  })
+
+  function convertProductsToOrderItems(products: ProductWithQuantity[], orderId: number) {
+    return products.map((product) => {
+      const unitPrice = product.dis_price !== 0 ? product.dis_price : product.price
+      const total = unitPrice * product.quantity
+
+      return {
+        quantity: product.quantity,
+        unitPrice: product.dis_price,
+        priceBeforeDiscount: product.price,
+        total: total,
+        name: product.name,
+        productId: product.id,
+        orderId: orderId
+      }
+    })
+  }
+
   const onBuyProducts = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    if (selectedProducts.length > 0 && rate) {
+    if (selectedProducts.length > 0 && rate && defaultAddress && profile) {
+      const data: OrderRequest = {
+        shippingAddress: defaultAddress.address,
+        totalAmout: totalAmount,
+        authorId: profile.email,
+        beforeDiscount: subTotal,
+        shipPrice: rate?.total_amount || 0,
+        discount: totalDiscount
+      }
+
       console.log(selectedProducts)
-      toast.success('Mua thành công')
-      purchaseProducts()
-      setRate(null)
-      navigate('/')
+
+      orderMutation.mutateAsync(data, {
+        onSuccess: (data) => {
+          const order = data.data.data
+          const orderDetails: OrderItem[] = convertProductsToOrderItems(selectedProducts, order.id)
+          orderDetailMutation.mutateAsync(orderDetails, {
+            onSuccess: (data) => {
+              const { message } = data.data
+              toast.success(message)
+              purchaseProducts()
+              setRate(null)
+              navigate('/')
+            },
+            onError: (error) => {
+              console.log(error)
+            }
+          })
+        }
+      })
     }
     event.preventDefault()
   }
@@ -42,7 +95,6 @@ const CartLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       toast.warning('Hãy thêm địa chỉ giao hàng')
     }
   }
-  console.log(rate)
   return (
     <div className='min-h-screen bg-gray-100'>
       <Header />

@@ -8,10 +8,10 @@ const categoryAPI = {
   getCategories() {
     return http.get<SuccessResponse<CategoryLevel1[]>>(URL)
   },
-  getCategoriesById({categoryId}:{categoryId:number}) {
+  getCategoriesById({ categoryId }: { categoryId: number }) {
     return http.get<SuccessResponse<CategoryLevel2>>(`${URL}/${categoryId}`)
   },
-  getCategoriesV1ById({categoryV1Id}:{categoryV1Id:number}) {
+  getCategoriesV1ById({ categoryV1Id }: { categoryV1Id: number }) {
     console.log(categoryV1Id)
     return http.get<SuccessResponse<CategoryLevel1>>(`${URL}/v1/${categoryV1Id}`)
   }

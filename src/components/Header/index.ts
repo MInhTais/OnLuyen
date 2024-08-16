@@ -1,3 +1,3 @@
-import HamburgerMenu from "./Header";
+import HamburgerMenu from './Header'
 
 export default HamburgerMenu

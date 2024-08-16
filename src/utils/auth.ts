@@ -1,4 +1,4 @@
-import { User } from "@/types/user.type"
+import { User } from '@/types/user.type'
 
 export const LocalStorageEventTarget = new EventTarget()
 export const saveAccessTokenToLocalStorage = (access_token: string) => {
@@ -29,7 +29,7 @@ export const getProfileFromLocalStorage = () => {
   return result ? JSON.parse(result) : null
 }
 
-export function getAddressFromLocalStorage(){
+export function getAddressFromLocalStorage() {
   const result = localStorage.getItem('address')
   return result ? JSON.parse(result) : []
 }

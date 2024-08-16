@@ -16,9 +16,14 @@ export default function OAuthCallback() {
       const accessToken = searchParams.get('access_token')
       const refreshToken = searchParams.get('refresh_token')
       const userParam = searchParams.get('user')
-      console.log(userParam)
+      const type = searchParams.get('type')
+      const message = searchParams.get('message')
 
-      if (accessToken && refreshToken && userParam) {
+      console.log(type)
+      if (type === 'error') {
+        toast.error(message)
+        navigate('/')
+      } else if (accessToken && refreshToken && userParam) {
         const user = JSON.parse(decodeURIComponent(userParam))
         console.log(user)
         if (user) {

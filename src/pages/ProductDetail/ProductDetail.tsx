@@ -9,8 +9,8 @@ import { useParams } from 'react-router-dom'
 import DOMPurify from 'dompurify'
 import Temp from '../ProductList/components/Temp'
 import { useProductContext } from '@/context/MyProvider'
-import { toast } from '@/components/ui/use-toast'
 import { Products } from '@/types/product.type'
+import { toast } from 'sonner'
 
 export default function ProductDetail() {
   const { addProduct } = useProductContext()
@@ -25,7 +25,7 @@ export default function ProductDetail() {
 
   const product = productDetail?.data.data
 
-  const { data: categoriesData, isSuccess } = useQuery({
+  const { data: categoriesData } = useQuery({
     queryKey: ['categories', id],
     queryFn: () => {
       return productsAPI.getCategorieById(Number(product?.categoriesLevel2Id))
@@ -40,9 +40,7 @@ export default function ProductDetail() {
 
   function addToCart(product: Products): void {
     addProduct(product, buyCount)
-    toast({
-      description: 'Thêm sản phẩm thành công'
-    })
+    toast.success('Thêm sản phẩm thành công')
   }
   const categories = categoriesData?.data.data
 

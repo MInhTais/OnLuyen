@@ -1,3 +1,3 @@
-import Shipping from "./Shipping";
+import Shipping from './Shipping'
 
 export default Shipping
